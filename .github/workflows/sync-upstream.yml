@@ -28,8 +28,8 @@ jobs:
           git remote add upstream https://github.com/rohitg00/ai-engineering-from-scratch.git
           git fetch upstream main
 
-      - name: Fast-forward main to upstream
-        run: git merge --ff-only upstream/main
+      - name: Merge upstream into main
+        run: git merge --no-edit upstream/main
 
       - name: Push to fork
         run: git push origin main

@@ -96,7 +96,7 @@ function hasQuery(req, name) {
 
 function validLessonPath(value) {
   if (!value || value.includes('..') || value.includes('\\') || value.includes('\0')) return false;
-  return /^(?:phases\/[a-z0-9][a-z0-9-]*\/[a-z0-9][a-z0-9-]*|certifications\/claude\/lessons\/[a-z0-9][a-z0-9-]*)$/.test(value);
+  return /^(?:phases\/[a-z0-9][a-z0-9-]*\/[a-z0-9][a-z0-9-]*|certifications\/[a-z0-9][a-z0-9-]*\/lessons\/[a-z0-9][a-z0-9-]*)$/.test(value);
 }
 
 function validTrackId(value) {
@@ -213,13 +213,13 @@ function lessonHead(entry, lessonPath, heading) {
     `  <link rel="canonical" href="${escapeHtml(canonical)}">`,
     `  <meta property="og:title" content="${escapeHtml(title)}">`,
     `  <meta property="og:description" content="${escapeHtml(description)}">`,
-    `  <meta property="og:image" content="${ORIGIN}/og-image.png?v=3">`,
+    `  <meta property="og:image" content="${ORIGIN}/og-image.png?v=4">`,
     `  <meta property="og:url" content="${escapeHtml(canonical)}">`,
     '  <meta property="og:type" content="article">',
     '  <meta name="twitter:card" content="summary_large_image">',
     `  <meta name="twitter:title" content="${escapeHtml(title)}">`,
     `  <meta name="twitter:description" content="${escapeHtml(description)}">`,
-    `  <meta name="twitter:image" content="${ORIGIN}/og-image.png?v=3">`,
+    `  <meta name="twitter:image" content="${ORIGIN}/og-image.png?v=4">`,
     `  <script type="application/ld+json" id="lessonJsonLd">${jsonForHtml(jsonLd)}</script>`,
   ].join('\n');
 }
@@ -277,7 +277,7 @@ function send(res, method, status, body, cacheControl) {
 
 function normalizedLessonLocation(req, lessonPath, entry, assets) {
   const params = new URLSearchParams();
-  const certificationLesson = lessonPath.startsWith('certifications/claude/lessons/');
+  const certificationLesson = /^certifications\/[a-z0-9][a-z0-9-]*\/lessons\//.test(lessonPath);
   const navigationByTrack = entry.navigationByTrack && typeof entry.navigationByTrack === 'object'
     ? entry.navigationByTrack
     : {};
